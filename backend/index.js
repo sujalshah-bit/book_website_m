@@ -20,7 +20,7 @@ app.use(cookieParser());
 app.use(cors(corsOptions))
 // MySQL Connection Pool
 const pool = mysql.createPool({
-    host: 'localhost',
+    host: 'mysql',
     user: 'root',
     password: '123',
     database: 'bookstore',
