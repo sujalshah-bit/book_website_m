@@ -1,12 +1,14 @@
+/* eslint-disable react/prop-types */
 import "../../styles/Nav.css";
 import { FaHeart } from "react-icons/fa6";
 import { IoPerson } from "react-icons/io5";
 import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import useSearchStore from "../../store/searchStore";
 import Cookies from "js-cookie";
 
-function Nav() {
+function Nav({ show_input = false }) {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   const handleLogout = () => {
@@ -20,6 +22,12 @@ function Nav() {
         setIsLoggedIn(false);
       })
       .catch((err) => console.error("Error:", err));
+  };
+
+  const setQuery = useSearchStore((state) => state.setQuery);
+
+  const handleSearchChange = (e) => {
+    setQuery(e.target.value); // Update the query in Zustand
   };
 
   useEffect(() => {
@@ -38,12 +46,19 @@ function Nav() {
       <div>
         <h3>World of Books</h3>
       </div>
-      <div className="input_section">
-        <input type="text" placeholder="Search" />
-        <div id="searchBtn">
-          <FaSearch fill="#000" />
+      {show_input ? (
+        <div className="input_section">
+          <input
+            type="text"
+            placeholder="Search"
+            onChange={handleSearchChange}
+          />
+          <div id="searchBtn">
+            <FaSearch fill="#000" />
+          </div>
         </div>
-      </div>
+      ) : null}
+
       <ul>
         {isLoggedIn ? (
           <>
@@ -64,12 +79,16 @@ function Nav() {
           <>
             <li style={{ cursor: "pointer" }}>
               <button>
-                <Link className="signup_login" to={"/user/signup"}>Sign up</Link>
+                <Link className="signup_login" to={"/user/signup"}>
+                  Sign up
+                </Link>
               </button>
             </li>
             <li style={{ cursor: "pointer" }}>
               <button>
-                <Link className="signup_login" to={"/login"}>Login</Link>
+                <Link className="signup_login" to={"/login"}>
+                  Login
+                </Link>
               </button>
             </li>
           </>

@@ -8,6 +8,8 @@ import Signup from './components/auth/Signup.jsx';
 import Login from './components/auth/Login.jsx';
 import LandingPage from './components/landing_section/LandingPage.jsx';
 import BookDetail from './components/BookDetail/BookDetail.jsx';
+import BookFilters from './components/FilterBook/FilterBookView.jsx';
+import Admin from './components/admin/admin.jsx';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -28,6 +30,14 @@ const router = createBrowserRouter([
   {
     path: "/book/:id",
     element: <BookDetail/>,
+  },
+  {
+    path: "/books",
+    element: <BookFilters/>,
+  },
+  {
+    path: "/admin",
+    element: <Admin/>,
   },
 ]);
 createRoot(document.getElementById('root')).render(
