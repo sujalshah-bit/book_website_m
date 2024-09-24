@@ -34,11 +34,11 @@ function Nav({ show_input = false }) {
     // Check for token in local storage
     const token = Cookies.get("token");
     console.log(token);
-    // if (token) {
-    //   setIsLoggedIn(true);
-    // } else {
-    //   setIsLoggedIn(false);
-    // }
+    if (token) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
   }, []);
 
   return (
