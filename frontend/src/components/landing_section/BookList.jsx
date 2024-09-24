@@ -1,7 +1,10 @@
 import "../../styles/BookList.css";
 import BookCard from '../BookCard'
 import data from '../../../util/sample_book.json';
+import useStore from "../../store/store";
 const BookList = () => {
+  const { books } = useStore();
+
   return (
     <section className="book_list">
         {

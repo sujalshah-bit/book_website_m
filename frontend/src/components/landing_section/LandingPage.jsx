@@ -4,8 +4,15 @@ import HeroSection from './HeroSection'
 import Footer from '../Footer'
 
 import BookList from './BookList'
+import { useEffect } from 'react';
+import useStore from '../../store/store';
 
 function LandingPage() {
+  const { fetchBooks } = useStore();
+
+  useEffect(() => {
+    fetchBooks();
+  }, [fetchBooks]);
   return (
     <section>
         <Nav/>

@@ -34,17 +34,17 @@ function Nav({ show_input = false }) {
     // Check for token in local storage
     const token = Cookies.get("token");
     console.log(token);
-    if (token) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
+    // if (token) {
+    //   setIsLoggedIn(true);
+    // } else {
+    //   setIsLoggedIn(false);
+    // }
   }, []);
 
   return (
     <nav>
       <div>
-        <h3>World of Books</h3>
+        <h3><Link to={'/'}>World of Books</Link></h3>
       </div>
       {show_input ? (
         <div className="input_section">
@@ -73,6 +73,27 @@ function Nav({ show_input = false }) {
             </li>
             <li style={{ cursor: "pointer" }}>
               <button onClick={() => handleLogout()}>Log out</button>
+            </li>
+            <li style={{ cursor: "pointer" }}>
+              <button>
+                <Link className="signup_login" to={"/admin"}>
+                  Admin Panel
+                </Link>
+              </button>
+            </li>
+            <li style={{ cursor: "pointer" }}>
+              <button>
+                <Link className="signup_login" to={"/books"}>
+                  All Books
+                </Link>
+              </button>
+            </li>
+            <li style={{ cursor: "pointer" }}>
+              <button>
+                <Link className="signup_login" to={"/book/1"}>
+                  Book
+                </Link>
+              </button>
             </li>
           </>
         ) : (

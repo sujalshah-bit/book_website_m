@@ -1,0 +1,108 @@
+import { create } from 'zustand';
+import axios from 'axios';
+
+const useStore = create((set) => ({
+  // Initial state for books and user information
+  books: [],
+  user: {
+    name: '',
+    email: '',
+    role: 'user', // Can be 'admin' or 'user'
+  },
+
+  // Function to set books (for local state)
+  setBooks: (newBooks) => set({ books: newBooks }),
+
+  // Function to fetch all books from API
+  fetchBooks: async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/books', {
+        withCredentials: true,
+      });
+      set({ books: response.data });
+    } catch (error) {
+      console.error('Error fetching books:', error);
+    }
+  },
+
+  // Function to add a book (Admin only)
+  addBook: async (newBook) => {
+    try {
+      const response = await axios.post('http://localhost:5000/books', newBook, {
+        withCredentials: true,
+      });
+      if (response.status === 201) {
+        set((state) => ({
+          books: [...state.books, { ...newBook, id: response.data.id }],
+        }));
+      }
+    } catch (error) {
+      console.error('Error adding book:', error);
+    }
+  },
+
+  // Function to update a book (Admin only)
+  updateBook: async (updatedBook) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/books/${updatedBook.id}`,
+        updatedBook,
+        { withCredentials: true }
+      );
+      if (response.status === 200) {
+        set((state) => ({
+          books: state.books.map((book) =>
+            book.id === updatedBook.id ? updatedBook : book
+          ),
+        }));
+      }
+    } catch (error) {
+      console.error('Error updating book:', error);
+    }
+  },
+
+  // Function to delete a book (Admin only)
+  deleteBook: async (id) => {
+    try {
+      const response = await axios.delete(`http://localhost:5000/books/${id}`, {
+        withCredentials: true,
+      });
+      if (response.status === 200) {
+        set((state) => ({
+          books: state.books.filter((book) => book.id !== id),
+        }));
+      }
+    } catch (error) {
+      console.error('Error deleting book:', error);
+    }
+  },
+
+  // Function to set user information
+  setUser: (userInfo) => set({ user: userInfo }),
+
+  // Function to login user or admin
+  login: async (credentials) => {
+    try {
+      const response = await axios.post('http://localhost:5000/login', credentials, {
+        withCredentials: true,
+      });
+      set({ user: response.data });
+      return response;
+    } catch (error) {
+      console.error('Error logging in:', error);
+      throw error;
+    }
+  },
+
+  // Function to logout
+  logout: async () => {
+    try {
+      await axios.post('http://localhost:5000/logout', {}, { withCredentials: true });
+      set({ user: { name: '', email: '', role: 'user' }, books: [] });
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  },
+}));
+
+export default useStore;
