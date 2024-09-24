@@ -44,15 +44,20 @@
 html {
   background-color: #f0f0f0;
 }
+a {
+  text-decoration: none !important;
+}
 .primary-button{
   width: 100%;
   padding: 10px;
   font-weight: bold;
   background-color: #937DC2;
-  color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+.primary-button a{
+  color: white;
 }
 .mb-10{
   margin-bottom: 10px;

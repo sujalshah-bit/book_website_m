@@ -9,8 +9,8 @@ const BookCard = ({ elem, index }) => {
         <div className="card-info">
             <h1 className="ellipse">{elem.title}</h1>
             <p style={{color:"#4D4C4C"}}>{elem.brand}</p>
-            <p>${elem.final_price}</p>
-            <Button text={"View"}/>
+            <p>₹ {elem.final_price}</p>
+            <Button text={"View"} id={index}/>
         </div>
     </div>
   )

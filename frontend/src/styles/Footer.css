@@ -58,3 +58,9 @@
   .social-icon:hover {
     transform: scale(1.2);
   }
+
+
+  footer a{
+    display: flex;
+    color:white;
+  }

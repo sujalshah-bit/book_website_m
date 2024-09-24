@@ -8,7 +8,7 @@ const BookDetailComponent = () => {
         <h1>Chain of Gold: The Last Hours #1</h1>
         <p className="author">Cassandra Clare</p>
         <p className="ratings">4.7 out of 5</p>
-        <p className="price">$12.49</p>
+        <p className="price">$1204</p>
         <p className="description">
           From #1 New York Times and USA TODAY bestselling author Cassandra
           Clare comes the first novel in a brand-new trilogy where evil hides in

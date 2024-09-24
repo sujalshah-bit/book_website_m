@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../../styles/Admin.css";
+import Nav from "../landing_section/Nav";
 
 const Admin = () => {
   const [books, setBooks] = useState([]);
@@ -90,6 +91,8 @@ const Admin = () => {
   };
 
   return (
+    <>
+    <Nav/>
     <div className="admin-container">
       <h2>Admin Panel - Manage Books</h2>
 
@@ -215,6 +218,7 @@ const Admin = () => {
         <p>No books added yet.</p>
       )}
     </div>
+    </>
   );
 };
 

@@ -17,7 +17,7 @@
         "discount": null,
         "domain": "www.amazon.com",
         "features": [],
-        "final_price": 3.99,
+        "final_price": 689,
         "format": [
           {
             "name": "Kindle",
@@ -58,7 +58,7 @@
         "model_number": null,
         "plus_content": false,
         "product_dimensions": "1 x 4.3 x 7 inches",
-        "rating": "4.6 out of 5 stars",
+        "rating": "3.6 out of 5 stars",
         "reviews_count": 13451,
         "root_bs_rank": 253400,
         "seller_id": "ATVPDKIKX0DER",
@@ -105,7 +105,7 @@
         "discount": null,
         "domain": "www.amazon.com",
         "features": [],
-        "final_price": 12.08,
+        "final_price": 508,
         "format": [
           {
             "name": "Kindle",
@@ -136,7 +136,7 @@
         "model_number": null,
         "plus_content": false,
         "product_dimensions": "9.92 x 0.24 x 9.88 inches",
-        "rating": "4.8 out of 5 stars",
+        "rating": "2.8 out of 5 stars",
         "reviews_count": 16628,
         "root_bs_rank": 113569,
         "seller_id": "ATVPDKIKX0DER",
@@ -180,7 +180,7 @@
         "discount": null,
         "domain": "www.amazon.com",
         "features": [],
-        "final_price": "18.39",
+        "final_price": 839,
         "format": [
           {
             "name": "Kindle",
@@ -211,7 +211,7 @@
         "model_number": null,
         "plus_content": false,
         "product_dimensions": "5.08 x 1.18 x 7.8 inches",
-        "rating": "4.8 out of 5 stars",
+        "rating": "4.2 out of 5 stars",
         "reviews_count": 11275,
         "root_bs_rank": 26233,
         "seller_id": "ATVPDKIKX0DER",
@@ -254,7 +254,7 @@
         "discount": null,
         "domain": "www.amazon.com",
         "features": [],
-        "final_price": 20.43,
+        "final_price": 1043,
         "format": [
           {
             "name": "Paperback",
@@ -275,7 +275,7 @@
         "model_number": null,
         "plus_content": false,
         "product_dimensions": "5.55 x 1.61 x 8.74 inches",
-        "rating": "4.8 out of 5 stars",
+        "rating": "1.8 out of 5 stars",
         "reviews_count": 15520,
         "root_bs_rank": 110841,
         "seller_id": "ATVPDKIKX0DER",
@@ -319,7 +319,7 @@
         "discount": null,
         "domain": "www.amazon.com",
         "features": [],
-        "final_price": 28.89,
+        "final_price": 1499,
         "format": [
           {
             "name": "Kindle",
@@ -345,7 +345,7 @@
         "model_number": null,
         "plus_content": false,
         "product_dimensions": "7.48 x 1 x 9.49 inches",
-        "rating": "4.8 out of 5 stars",
+        "rating": "2.2 out of 5 stars",
         "reviews_count": 10884,
         "root_bs_rank": 41101,
         "seller_id": "ATVPDKIKX0DER",
@@ -403,7 +403,7 @@
         "discount": 18.87,
         "domain": "www.amazon.com",
         "features": [],
-        "final_price": 41.12,
+        "final_price": 412,
         "format": [
           {
             "name": "Vinyl Bound",
@@ -429,7 +429,7 @@
         "model_number": null,
         "plus_content": false,
         "product_dimensions": "5.08 x 4.09 x 7.8 inches",
-        "rating": "4.8 out of 5 stars",
+        "rating": "3.3 out of 5 stars",
         "reviews_count": 20453,
         "root_bs_rank": 99974,
         "seller_id": "AZOLNCI5GS0EX",
@@ -470,7 +470,7 @@
         "discount": null,
         "domain": "www.amazon.com",
         "features": [],
-        "final_price": 36.11,
+        "final_price": 361,
         "format": [
           {
             "name": "Kindle",
@@ -506,7 +506,7 @@
         "model_number": null,
         "plus_content": false,
         "product_dimensions": "5.87 x 1.73 x 8.98 inches",
-        "rating": "4.7 out of 5 stars",
+        "rating": "2.7 out of 5 stars",
         "reviews_count": 10261,
         "root_bs_rank": 118712,
         "seller_id": "A30UH7RV1UCIV3",
@@ -546,7 +546,7 @@
         "discount": 66.01,
         "domain": "www.amazon.com",
         "features": [],
-        "final_price": 53.99,
+        "final_price": 1399,
         "format": [
           {
             "name": "Kindle",
