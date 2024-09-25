@@ -3,13 +3,14 @@ import "../../styles/Nav.css";
 import { FaHeart } from "react-icons/fa6";
 import { IoPerson } from "react-icons/io5";
 import { FaSearch } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useSearchStore from "../../store/searchStore";
 import Cookies from "js-cookie";
 
 function Nav({ show_input = false }) {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     fetch("http://localhost:5000/logout", {
@@ -18,8 +19,8 @@ function Nav({ show_input = false }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data); // "Logged out successfully"
         setIsLoggedIn(false);
+        navigate('/')
       })
       .catch((err) => console.error("Error:", err));
   };
@@ -85,13 +86,6 @@ function Nav({ show_input = false }) {
               <button>
                 <Link className="signup_login" to={"/books"}>
                   All Books
-                </Link>
-              </button>
-            </li>
-            <li style={{ cursor: "pointer" }}>
-              <button>
-                <Link className="signup_login" to={"/book/1"}>
-                  Book
                 </Link>
               </button>
             </li>

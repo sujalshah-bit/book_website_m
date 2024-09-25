@@ -21,7 +21,6 @@
 }
 .input_container button{
     outline: none;
-    width: 15%;
 }
 
 .comment{
@@ -40,4 +39,11 @@
 }
 .comment p{
     font-size: 14px;
+}
+
+.no_comment{
+    display: block;
+   text-align: center;
+   height: 50px;
+   padding-top: 25px;
 }

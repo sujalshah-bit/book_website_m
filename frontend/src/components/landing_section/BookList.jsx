@@ -8,7 +8,7 @@ const BookList = () => {
   return (
     <section className="book_list">
         {
-            data.map((elem,index)=>{
+            books.map((elem,index)=>{
                 const combinedProps = { elem, index };
                 return <BookCard {...combinedProps} key={index}/>
             })

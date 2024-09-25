@@ -95,7 +95,6 @@ function BookFilters() {
           <div className='books_container'>
             {filteredBooks.map((elem, index) => {
                 const combinedProps = { elem, index };
-                console.log(elem)
                 return <BookCard {...combinedProps} key={index}/>
             }
             //   <li key={index}>

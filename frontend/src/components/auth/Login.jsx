@@ -32,7 +32,7 @@ const Login = () => {
         const data = await response.json();
         setMessage(data.msg);
         setUsername("");
-        setPassword("");
+        setPassword("");  
         setRole("select role"); // Reset role to default
         navigate("/");
       }

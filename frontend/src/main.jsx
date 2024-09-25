@@ -1,47 +1,48 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-// import App from './App.jsx'
-import './styles/index.css'
-import './styles/app.css'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Signup from './components/auth/Signup.jsx';
-import Login from './components/auth/Login.jsx';
-import LandingPage from './components/landing_section/LandingPage.jsx';
-import BookDetail from './components/BookDetail/BookDetail.jsx';
-import BookFilters from './components/FilterBook/FilterBookView.jsx';
-import Admin from './components/admin/admin.jsx';
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Signup from "./components/auth/Signup.jsx";
+import Login from "./components/auth/Login.jsx";
+import LandingPage from "./components/landing_section/LandingPage.jsx";
+import BookDetail from "./components/BookDetail/BookDetail.jsx";
+import BookFilters from "./components/FilterBook/FilterBookView.jsx";
+import Admin from "./components/admin/admin.jsx";
+import "./styles/index.css";
+import "./styles/app.css";
+
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <LandingPage/>,
+    element: <LandingPage />,
   },
   {
     path: "/login",
-    element: <Login/>,
+    element: <Login />,
   },
   {
     path: "/admin/signup",
-    element: <Signup text={"Admin"}/>,
+    element: <Signup text={"Admin"} />,
   },
   {
     path: "/user/signup",
-    element: <Signup text={"User"}/>,
+    element: <Signup text={"User"} />,
   },
   {
     path: "/book/:id",
-    element: <BookDetail/>,
+    element: <BookDetail />,
   },
   {
     path: "/books",
-    element: <BookFilters/>,
+    element: <BookFilters />,
   },
   {
     path: "/admin",
-    element: <Admin/>,
+    element: <Admin />,
   },
 ]);
-createRoot(document.getElementById('root')).render(
+
+createRoot(document.getElementById("root")).render(
   <StrictMode>
     <RouterProvider router={router} />
-  </StrictMode>,
-)
+  </StrictMode>
+);

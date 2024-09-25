@@ -1,6 +1,5 @@
 import Nav from '../landing_section/Nav'
 import BookDetailComponent from './BookDetailComponent'
-import CommentsSection from './Comment'
 
 export const BookDetail = () => {
   return (
@@ -8,7 +7,6 @@ export const BookDetail = () => {
         <Nav/>
     <section className='w-lg'>
         <BookDetailComponent/>
-        <CommentsSection/>
     </section>
     </section>
   )

@@ -4,6 +4,7 @@ import axios from 'axios';
 const useStore = create((set) => ({
   // Initial state for books and user information
   books: [],
+  book:[],
   user: {
     name: '',
     email: '',
@@ -20,6 +21,17 @@ const useStore = create((set) => ({
         withCredentials: true,
       });
       set({ books: response.data });
+    } catch (error) {
+      console.error('Error fetching books:', error);
+    }
+  },
+
+  fetchBook: async (id) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/book/${id}`, {
+        withCredentials: true,
+      });
+      set({ book: response.data });
     } catch (error) {
       console.error('Error fetching books:', error);
     }
@@ -101,6 +113,41 @@ const useStore = create((set) => ({
       set({ user: { name: '', email: '', role: 'user' }, books: [] });
     } catch (error) {
       console.error('Error logging out:', error);
+    }
+  },
+
+  
+  // Function to add a comment
+  addComment: async (bookId, comment) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/books/${bookId}/comments`,
+        { comment },
+        { withCredentials: true }
+      );
+      if (response.status === 201) {
+        console.log('Comment added successfully');
+        // Optionally, you can fetch the updated comments or update the local state
+      }
+    } catch (error) {
+      console.error('Error adding comment:', error);
+    }
+  },
+
+  // Function to add a rating
+  addRating: async (bookId, rating) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/books/${bookId}/ratings`,
+        { rating },
+        { withCredentials: true }
+      );
+      if (response.status === 201) {
+        console.log('Rating added successfully');
+        // Optionally, you can fetch the updated ratings or update the local state
+      }
+    } catch (error) {
+      console.error('Error adding rating:', error);
     }
   },
 }));
