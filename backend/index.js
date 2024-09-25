@@ -127,8 +127,8 @@ const PORT = 5000;
 
 // Middleware to verify token
 const verifyToken = (req, res, next) => {
-    const token = req.cookies['token'];
-
+     // Try to extract the token from cookies or the Authorization header
+     const token = req.cookies['token'] || req.headers['authorization']?.split(' ')[1]; // Split to remove "Bearer"
     if (!token) {
         return res.status(403).send('Token is required');
     }
@@ -136,6 +136,7 @@ const verifyToken = (req, res, next) => {
     try {
         const decoded = jwt.verify(token, 'secretkey');
         req.user = decoded;
+        console.log(req.user)
         next();
     } catch (err) {
         console.log(err);
@@ -145,6 +146,7 @@ const verifyToken = (req, res, next) => {
 
 // Middleware to check if admin
 const isAdmin = (req, res, next) => {
+    console.log(req.user)
     if (req.user.role !== 'admin') {
         return res.status(403).send('Access denied');
     }
@@ -288,24 +290,25 @@ app.post('/login', (req, res) => {
 // Book Routes
 
 // Get all books with comments and ratings
-app.get('/books', verifyToken, (req, res) => {
+app.get('/books', (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
 
         const sql = `
             SELECT 
                 b.id, b.title, b.author, b.price, b.url, b.rating, b.description, b.image_url, b.categories,
-                c.comment, c.created_at AS comment_date,
-                r.rating, r.created_at AS rating_date
+                JSON_ARRAYAGG(JSON_OBJECT('author', COALESCE(u.username, a.username), 'comment', c.comment)) AS comments
             FROM books b
             LEFT JOIN comments c ON b.id = c.book_id
-            LEFT JOIN ratings r ON b.id = r.book_id
+            LEFT JOIN users u ON c.user_id = u.id
+            LEFT JOIN admins a ON c.admin_id = a.id
+            GROUP BY b.id
         `;
 
         connection.query(sql, (err, results) => {
             connection.release();
             if (err) throw err;
-            res.json(results);
+            res.json(results); // Send all books with grouped comments
         });
     });
 });
@@ -337,6 +340,38 @@ app.post('/books', verifyToken, isAdmin, (req, res) => {
         });
     });
 });
+
+app.get('/book/:id', (req, res) => {
+    const bookId = req.params.id;
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+
+        const sql = `
+            SELECT 
+                b.id, b.title, b.author, b.price, b.url, b.rating, b.description, b.image_url, b.categories,
+                JSON_ARRAYAGG(JSON_OBJECT('author', COALESCE(u.username, a.username), 'comment', c.comment)) AS comments
+            FROM books b
+            LEFT JOIN comments c ON b.id = c.book_id
+            LEFT JOIN users u ON c.user_id = u.id
+            LEFT JOIN admins a ON c.admin_id = a.id
+            WHERE b.id = ?
+            GROUP BY b.id
+        `;
+
+        connection.query(sql, [bookId], (err, results) => {
+            connection.release();
+            if (err) throw err;
+
+            if (results.length === 0) {
+                return res.status(404).json({ message: 'Book not found' });
+            }
+
+            res.json(results[0]); // Send the book data with comments array
+        });
+    });
+});
+
+
 
 // Update a book (Admin only)
 app.put('/books/:id', verifyToken, isAdmin, (req, res) => {
@@ -389,6 +424,7 @@ app.post('/books/:book_id/comments', verifyToken, (req, res) => {
         connection.query(sql, [user_id, admin_id, book_id, comment], (err, result) => {
             connection.release();
             if (err) throw err;
+            // console.log(result)
             res.status(201).send('Comment added');
         });
     });
@@ -413,6 +449,12 @@ app.post('/books/:book_id/ratings', verifyToken, (req, res) => {
             res.status(201).send('Rating added');
         });
     });
+});
+
+//check adming
+app.get('/check-admin', verifyToken, isAdmin,(req, res) => {
+    console.log(req.user)
+    res.status(201).send("Admin")
 });
 
 // Feedback Routes
