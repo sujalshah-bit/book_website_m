@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import "../../styles/Nav.css";
 import { FaHeart } from "react-icons/fa6";
-import { IoPerson } from "react-icons/io5";
 import { FaSearch } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -18,7 +17,7 @@ function Nav({ show_input = false }) {
       credentials: "include", // Important: to include cookies in the request
     })
       .then((res) => res.json())
-      .then((data) => {
+      .then(() => {
         setIsLoggedIn(false);
         navigate('/')
       })
@@ -34,7 +33,6 @@ function Nav({ show_input = false }) {
   useEffect(() => {
     // Check for token in local storage
     const token = Cookies.get("token");
-    console.log(token);
     if (token) {
       setIsLoggedIn(true);
     } else {
@@ -64,13 +62,14 @@ function Nav({ show_input = false }) {
         {isLoggedIn ? (
           <>
             <li>
+            <Link  to={"/Wishlist"}>
               <FaHeart style={{ cursor: "pointer" }} fill="#937DC2" />
-            </li>
-            <li>
-              <IoPerson style={{ cursor: "pointer" }} fill="#937DC2" />
+            </Link>
             </li>
             <li style={{ cursor: "pointer" }}>
+            <Link className="" to={"/feedback"}>
               <button>Feedback</button>
+            </Link>
             </li>
             <li style={{ cursor: "pointer" }}>
               <button onClick={() => handleLogout()}>Log out</button>

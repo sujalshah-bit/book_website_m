@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "../../styles/Auth.css";
 import { useNavigate } from "react-router-dom";
+import Nav from "../landing_section/Nav";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -43,6 +44,8 @@ const Login = () => {
   };
 
   return (
+    <>
+    <Nav/>
     <section className="auth-bg">
       <div className="auth-container">
         <h2>Login</h2>
@@ -85,6 +88,7 @@ const Login = () => {
         </form>
       </div>
     </section>
+    </>
   );
 };
 

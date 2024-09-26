@@ -1,9 +1,10 @@
-import { useState } from 'react';
-import booksData from "../../../util/sample_book.json";
+import { useEffect, useState } from 'react';
+// import booksData from "../../../util/sample_book.json";
 import BookCard from '../BookCard';
 import "../../styles/FilterBookView.css"
 import Nav from '../landing_section/Nav';
 import useSearchStore from '../../store/searchStore';
+import useStore from '../../store/store';
 
 // Sample predefined categories
 const predefinedCategories = [
@@ -15,6 +16,7 @@ const predefinedCategories = [
 ];
 
 function BookFilters() {
+  const { books, fetchBooks } = useStore();
   const [filters, setFilters] = useState({
     availability: "",
     brand: "",
@@ -25,7 +27,7 @@ function BookFilters() {
   });
   const query = useSearchStore((state) => state.query);
   // Filter function
-  const filteredBooks = booksData.filter(book => {
+  const filteredBooks = books.filter(book => {
     const withinPriceRange = (filters.minPrice === null || book.final_price >= filters.minPrice) &&
                              (filters.maxPrice === null || book.final_price <= filters.maxPrice);
     const matchesAvailability = filters.availability ? book.availability === filters.availability : true;
@@ -34,7 +36,9 @@ function BookFilters() {
     const matchesQuery = query ? book.title.toLowerCase().includes(query.toLowerCase()) : true;
     return withinPriceRange && matchesAvailability  && matchesRating && matchesCategory&& matchesQuery;;
   });
-
+  useEffect(() => {
+    fetchBooks();
+  }, [fetchBooks]);
   // Update filter state
   const updateFilter = (key, value) => {
     setFilters({ ...filters, [key]: value });

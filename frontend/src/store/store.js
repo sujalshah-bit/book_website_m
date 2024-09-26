@@ -5,6 +5,8 @@ const useStore = create((set) => ({
   // Initial state for books and user information
   books: [],
   book:[],
+  wishlist:[],
+  ratings: [],
   user: {
     name: '',
     email: '',
@@ -150,6 +152,39 @@ const useStore = create((set) => ({
       console.error('Error adding rating:', error);
     }
   },
+  
+  // Function to fetch the wishlist from the backend
+  fetchWishlist : async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/wishlist', {
+        withCredentials: true, // Ensures cookies (tokens) are sent
+      });
+      set({ wishlist: response.data });
+    } catch (error) {
+      console.error('Error fetching wishlist:', error);
+    }
+  },
+  removeWishlist : async (id) => {
+    try {
+      const response = await axios.delete(`http://localhost:5000/wishlist/${id}`, {
+        withCredentials: true, // Ensures cookies (tokens) are sent
+      });
+      if (response.status === 201) {
+        console.log('wishlist removed successfully');
+      }
+    } catch (error) {
+      console.error('Error fetching wishlist:', error);
+    }
+  },
+  
+  fetchRatings : async (id) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/books/${id}/ratings`, { withCredentials: true });
+      set({ ratings: response.data });
+    } catch (error) {
+        console.error("Error fetching ratings:", error);
+    }
+}
 }));
 
 export default useStore;

@@ -5,7 +5,6 @@ const cookieParser = require('cookie-parser');
 const mysql = require('mysql2');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const path = require('path')
 
 const app = express();
 // Serve static files from the 'public' directory
@@ -136,7 +135,6 @@ const verifyToken = (req, res, next) => {
     try {
         const decoded = jwt.verify(token, 'secretkey');
         req.user = decoded;
-        console.log(req.user)
         next();
     } catch (err) {
         console.log(err);
@@ -146,7 +144,7 @@ const verifyToken = (req, res, next) => {
 
 // Middleware to check if admin
 const isAdmin = (req, res, next) => {
-    console.log(req.user)
+    // console.log(req.user)
     if (req.user.role !== 'admin') {
         return res.status(403).send('Access denied');
     }
@@ -432,13 +430,13 @@ app.post('/books/:book_id/comments', verifyToken, (req, res) => {
 
 // Rating Routes
 
-// Add a rating (User or Admin)
+// Add a rating (User or Admin
 app.post('/books/:book_id/ratings', verifyToken, (req, res) => {
     const { rating } = req.body;
     const { book_id } = req.params;
     const user_id = req.user.role === 'user' ? req.user.id : null;
     const admin_id = req.user.role === 'admin' ? req.user.id : null;
-
+    // console.log({book_id, user_id, admin_id})
     pool.getConnection((err, connection) => {
         if (err) throw err;
 
@@ -451,9 +449,56 @@ app.post('/books/:book_id/ratings', verifyToken, (req, res) => {
     });
 });
 
+// Get all ratings for a specific book
+app.get('/books/:book_id/ratings', (req, res) => {
+    const { book_id } = req.params;
+
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+
+        const sql = `
+            SELECT r.id, r.rating, r.created_at, 
+                u.username AS user_name, 
+                a.username AS admin_name
+            FROM ratings r
+            LEFT JOIN users u ON r.user_id = u.id
+            LEFT JOIN admins a ON r.admin_id = a.id
+            WHERE r.book_id = ?`;
+
+        connection.query(sql, [book_id], (err, results) => {
+            connection.release();
+            if (err) throw err;
+            res.json(results);
+        });
+    });
+});
+
+
+// Check if the user or admin has already rated a book
+app.get('/check-already-rated/:book_id/ratings', verifyToken, (req, res) => {
+    const { book_id } = req.params;
+    const user_id = req.user.role === 'user' ? req.user.id : null;
+    const admin_id = req.user.role === 'admin' ? req.user.id : null;
+    // console.log({book_id, user_id, admin_id})
+
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+
+        const sql = 'SELECT * FROM ratings WHERE (user_id = ? OR admin_id = ?) AND book_id = ?';
+        connection.query(sql, [user_id, admin_id, book_id], (err, results) => {
+            connection.release();
+            if (err) throw err;
+            if (results.length > 0) {
+                res.status(200).json({ alreadyRated: true });
+            } else {
+                res.status(200).json({ alreadyRated: false });
+            }
+        });
+    });
+});
+
 //check adming
 app.get('/check-admin', verifyToken, isAdmin,(req, res) => {
-    console.log(req.user)
     res.status(201).send("Admin")
 });
 
@@ -461,15 +506,15 @@ app.get('/check-admin', verifyToken, isAdmin,(req, res) => {
 
 // Add website feedback (User or Admin)
 app.post('/feedback', verifyToken, (req, res) => {
-    const { feedback } = req.body;
+    const { feedback, title } = req.body;
     const user_id = req.user.role === 'user' ? req.user.id : null;
     const admin_id = req.user.role === 'admin' ? req.user.id : null;
 
     pool.getConnection((err, connection) => {
         if (err) throw err;
 
-        const sql = 'INSERT INTO feedback (user_id, admin_id, feedback) VALUES (?, ?, ?)';
-        connection.query(sql, [user_id, admin_id, feedback], (err, result) => {
+        const sql = 'INSERT INTO feedback (user_id, admin_id, description, title) VALUES (?, ?, ?, ?)';
+        connection.query(sql, [user_id, admin_id, feedback, title], (err, result) => {
             connection.release();
             if (err) throw err;
             res.status(201).send('Feedback added');
@@ -502,7 +547,7 @@ app.post('/wishlist', verifyToken, (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
 
-        const sql = 'INSERT INTO wishlist (user_id, admin_id, book_id) VALUES (?, ?, ?)';
+        const sql = 'INSERT INTO wishlists (user_id, admin_id, book_id) VALUES (?, ?, ?)';
         connection.query(sql, [user_id, admin_id, book_id], (err, result) => {
             connection.release();
             if (err) throw err;
@@ -519,7 +564,7 @@ app.get('/wishlist', verifyToken, (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
 
-        const sql = 'SELECT b.* FROM books b JOIN wishlist w ON b.id = w.book_id WHERE w.user_id = ? OR w.admin_id = ?';
+        const sql = 'SELECT b.* FROM books b JOIN wishlists w ON b.id = w.book_id WHERE w.user_id = ? OR w.admin_id = ?';
         connection.query(sql, [user_id, admin_id], (err, results) => {
             connection.release();
             if (err) throw err;
@@ -528,290 +573,32 @@ app.get('/wishlist', verifyToken, (req, res) => {
     });
 });
 
+// Remove book from wishlist (User or Admin)
+app.delete('/wishlist/:book_id', verifyToken, (req, res) => {
+    const { book_id } = req.params;
+    const user_id = req.user.role === 'user' ? req.user.id : null;
+    const admin_id = req.user.role === 'admin' ? req.user.id : null;
+
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+
+        const sql = 'DELETE FROM wishlists WHERE (user_id = ? OR admin_id = ?) AND book_id = ?';
+        connection.query(sql, [user_id, admin_id, book_id], (err, result) => {
+            connection.release();
+            if (err) throw err;
+
+            if (result.affectedRows === 0) {
+                return res.status(404).send('Book not found in wishlist');
+            }
+
+            res.status(200).send('Book removed from wishlist');
+        });
+    });
+});
+
+
 // Server Listening
 app.listen(PORT, () => {
     console.log('Server running on port: 5000');
 });
 
-// Middleware to verify token
-// const verifyToken = (req, res, next) => {
-//     const token = req.cookie['token'];
-
-//     if (!token) {
-//         return res.status(403).send('Token is required');
-//     }
-
-//     try {
-//         const decoded = jwt.verify(token, 'secretkey');
-//         req.user = decoded;
-//         next();
-//     } catch (err) {
-//         console.log(err)
-//         return res.status(401).send('Invalid Token');
-//     }
-// };
-
-// // Middleware to check if admin
-// const isAdmin = (req, res, next) => {
-//     if (req.user.role !== 'admin') {
-//         return res.status(403).send('Access denied');
-//     }
-//     next();
-// };
-
-// app.get('/admin-login', (req, res) => {
-//     // res.sendFile(path.join(__dirname, './public/index.html'));
-//     res.sendFile(path.join(__dirname, './public/components/admin/LoginFormAdmin.html'));
-// })
-// app.get('/admin-signup', (req, res) => {
-//     // res.sendFile(path.join(__dirname, './public/index.html'));
-//     res.sendFile(path.join(__dirname, './public/components/admin/signupForm.html'));
-// })
-
-// // User Signup
-// app.post('/user/signup', (req, res) => {
-//     const { username, password } = req.body;
-
-//     if (!username || !password) {
-//         return res.status(400).send('Please provide username and password');
-//     }
-
-//     pool.getConnection((err, connection) => {
-//         if (err) throw err;
-
-//         const checkUserSql = 'SELECT * FROM users WHERE username = ?';
-//         connection.query(checkUserSql, [username], (err, results) => {
-//             if (err) {
-//                 connection.release();
-//                 throw err;
-//             }
-
-//             if (results.length > 0) {
-//                 connection.release();
-//                 return res.status(400).send('User already exists');
-//             }
-
-//             bcrypt.hash(password, 10, (err, hashedPassword) => {
-//                 if (err) {
-//                     connection.release();
-//                     throw err;
-//                 }
-
-//                 const insertUserSql = 'INSERT INTO users (username, password) VALUES (?, ?)';
-//                 connection.query(insertUserSql, [username, hashedPassword], (err, result) => {
-//                     connection.release();
-//                     if (err) throw err;
-//                     res.status(201).send('User registered');
-//                 });
-//             });
-//         });
-//     });
-// });
-
-// // Admin Signup
-// app.post('/admin/signup', (req, res) => {
-//     const { username, password } = req.body;
-
-//     if (!username || !password) {
-//         return res.status(400).send('Please provide username and password');
-//     }
-
-//     pool.getConnection((err, connection) => {
-//         if (err) throw err;
-
-//         const checkAdminSql = 'SELECT * FROM admins WHERE username = ?';
-//         connection.query(checkAdminSql, [username], (err, results) => {
-//             if (err) {
-//                 connection.release();
-//                 throw err;
-//             }
-
-//             if (results.length > 0) {
-//                 connection.release();
-//                 return res.status(400).send('Admin already exists');
-//             }
-
-//             bcrypt.hash(password, 10, (err, hashedPassword) => {
-//                 if (err) {
-//                     connection.release();
-//                     throw err;
-//                 }
-
-//                 const insertAdminSql = 'INSERT INTO admins (username, password) VALUES (?, ?)';
-//                 connection.query(insertAdminSql, [username, hashedPassword], (err, result) => {
-//                     connection.release();
-//                     if (err) throw err;
-//                     res.status(201).json({ msg: 'Admin registered' });
-//                 });
-//             });
-//         });
-//     });
-// });
-
-// // User Login
-// app.post('/user/login', (req, res) => {
-//     const { username, password } = req.body;
-
-//     if (!username || !password) {
-//         return res.status(400).send('Please provide username and password');
-//     }
-
-//     pool.getConnection((err, connection) => {
-//         if (err) throw err;
-
-//         const sql = 'SELECT * FROM users WHERE username = ?';
-//         connection.query(sql, [username], (err, results) => {
-//             if (err) {
-//                 connection.release();
-//                 throw err;
-//             }
-
-//             if (results.length === 0) {
-//                 connection.release();
-//                 return res.status(400).send('User not found');
-//             }
-
-//             const user = results[0];
-
-//             bcrypt.compare(password, user.password, (err, isMatch) => {
-//                 if (err) {
-//                     connection.release();
-//                     throw err;
-//                 }
-
-//                 if (!isMatch) {
-//                     connection.release();
-//                     return res.status(400).send('Incorrect password');
-//                 }
-
-//                 const token = jwt.sign({ id: user.id, role: 'user' }, 'secretkey', { expiresIn: '1h' });
-//                 connection.release();
-//                 res.cookie('token', token, { httpOnly: true, secure: false, maxAge: 3600000 }); // Adjust options as needed
-//                 res.json({ message: 'Logged in successfully' });
-//             });
-//         });
-//     });
-// });
-
-// // Admin Login
-// app.post('/admin/login', (req, res) => {
-//     const { username, password } = req.body;
-
-//     if (!username || !password) {
-//         return res.status(400).send('Please provide username and password');
-//     }
-
-//     pool.getConnection((err, connection) => {
-//         if (err) throw err;
-
-//         const sql = 'SELECT * FROM admins WHERE username = ?';
-//         connection.query(sql, [username], (err, results) => {
-//             if (err) {
-//                 connection.release();
-//                 throw err;
-//             }
-
-//             if (results.length === 0) {
-//                 connection.release();
-//                 return res.status(400).send('Admin not found');
-//             }
-
-//             const admin = results[0];
-
-//             bcrypt.compare(password, admin.password, (err, isMatch) => {
-//                 if (err) {
-//                     connection.release();
-//                     throw err;
-//                 }
-
-//                 if (!isMatch) {
-//                     connection.release();
-//                     return res.status(400).send('Incorrect password');
-//                 }
-
-//                 const token = jwt.sign({ id: admin.id, role: 'admin' }, 'secretkey', { expiresIn: '1h' });
-//                 connection.release();
-//                 res.cookie('token', token, { httpOnly: true, secure: false, maxAge: 3600000 }); // Adjust options as needed
-//                 res.json({ message: 'Admin Logged in successfully' });
-//             });
-//         });
-//     });
-// });
-
-// // Get all books
-// app.get('/books', verifyToken, (req, res) => {
-//     pool.getConnection((err, connection) => {
-//         if (err) throw err;
-
-//         const sql = 'SELECT * FROM books';
-//         connection.query(sql, (err, results) => {
-//             connection.release();
-//             if (err) throw err;
-//             res.json(results);
-//         });
-//     });
-// });
-
-// // Add a book (Admin only)
-// app.post('/books', verifyToken, isAdmin, (req, res) => {
-//     const { title, author, price, url, rating, description, image_url, categories } = req.body;
-
-//     const categoriesJson = JSON.stringify(categories);
-//     if (!title || !author || !price) {
-//         return res.status(400).send('Please provide title, author, and price');
-//     }
-
-//     pool.getConnection((err, connection) => {
-//         if (err) throw err;
-
-//         const sql = 'INSERT INTO books (title, author, price, url, rating, description, image_url, categories) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-//         connection.query(sql, [title, author, price, url, rating, description, image_url, categoriesJson], (err, result) => {
-//             connection.release();
-//             if (err) throw err;
-//             res.status(201).send('Book added');
-//         });
-//     });
-// });
-
-// // Update a book (Admin only)
-// app.put('/books/:id', verifyToken, isAdmin, (req, res) => {
-//     const { title, author, price, url, rating, description, image_url, categories } = req.body;
-//     const { id } = req.params;
-//     if (!title || !author || !price) {
-//         return res.status(400).send('Please provide title, author, and price');
-//     }
-
-//     const categoriesJson = JSON.stringify(categories);
-//     pool.getConnection((err, connection) => {
-//         if (err) throw err;
-
-//         const sql = 'UPDATE books SET title = ?, author = ?, price = ?, url = ?, rating = ?, description = ?, image_url = ?, categories = ?  WHERE id = ?';
-
-//         connection.query(sql, [title, author, price, url, rating, description, image_url, categoriesJson, id], (err, result) => {
-//             connection.release();
-//             if (err) throw err;
-//             res.send('Book updated');
-//         });
-//     });
-// });
-
-// // Delete a book (Admin only)
-// app.delete('/books/:id', verifyToken, isAdmin, (req, res) => {
-//     const { id } = req.params;
-
-//     pool.getConnection((err, connection) => {
-//         if (err) throw err;
-
-//         const sql = 'DELETE FROM books WHERE id = ?';
-//         connection.query(sql, [id], (err, result) => {
-//             connection.release();
-//             if (err) throw err;
-//             res.send('Book deleted');
-//         });
-//     });
-// });
-
-// // Start server
-// app.listen(PORT, () => {
-//     console.log(`Server running on port ${PORT}`);
-// });

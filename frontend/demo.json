@@ -1,11 +1,10 @@
-{
-    "ISBN10": "0008387753",
-    "availability": "Only 13 left in stock - order soon.",
-    "brand": "J. R. R. Tolkien",
+[
+  {
+    "author": "J. R. R. Tolkien",
     "description": null,
-    "final_price": 41.12,
+    "price": 4112,
     "image_url": "https://images-na.ssl-images-amazon.com/images/I/51iy3eo8+KL._SY344_BO1,204,203,200_.jpg",
-    "rating": "4.8 out of 5 stars",
+    "rating": 4.8,
     "reviews_count": 20453,
     "title": "The Hobbit & The Lord of the Rings Boxed Set",
     "url": "https://www.amazon.com/dp/0008387753",
@@ -14,4 +13,168 @@
       "Literature & Fiction",
       "Mythology & Folk Tales"
     ]
-  }
+  },
+  {
+    "author": "J. R. R. Tolkien",
+    "description": null,
+    "price": 4112,
+    "image_url": "https://images-na.ssl-images-amazon.com/images/I/51iy3eo8+KL._SY344_BO1,204,203,200_.jpg",
+    "rating": 4.8,
+    "reviews_count": 20453,
+    "title": "The Hobbit & The Lord of the Rings Boxed Set",
+    "url": "https://www.amazon.com/dp/0008387753",
+    "categories": [
+      "Books",
+      "Literature & Fiction",
+      "Mythology & Folk Tales"
+    ]
+  },{
+    "author": "J. R. R. Tolkien",
+    "description": null,
+    "price": 4112,
+    "image_url": "https://images-na.ssl-images-amazon.com/images/I/51iy3eo8+KL._SY344_BO1,204,203,200_.jpg",
+    "rating": 4.8,
+    "reviews_count": 20453,
+    "title": "The Hobbit & The Lord of the Rings Boxed Set",
+    "url": "https://www.amazon.com/dp/0008387753",
+    "categories": [
+      "Books",
+      "Literature & Fiction",
+      "Mythology & Folk Tales"
+    ]
+  },{
+    "author": "J. R. R. Tolkien",
+    "description": null,
+    "price": 4112,
+    "image_url": "https://images-na.ssl-images-amazon.com/images/I/51iy3eo8+KL._SY344_BO1,204,203,200_.jpg",
+    "rating": 4.8,
+    "reviews_count": 20453,
+    "title": "The Hobbit & The Lord of the Rings Boxed Set",
+    "url": "https://www.amazon.com/dp/0008387753",
+    "categories": [
+      "Books",
+      "Literature & Fiction",
+      "Mythology & Folk Tales"
+    ]
+  },
+  {
+    "author": "J. R. R. Tolkien",
+    "description": null,
+    "price": 4112,
+    "image_url": "https://images-na.ssl-images-amazon.com/images/I/51iy3eo8+KL._SY344_BO1,204,203,200_.jpg",
+    "rating": 4.8,
+    "reviews_count": 20453,
+    "title": "The Hobbit & The Lord of the Rings Boxed Set",
+    "url": "https://www.amazon.com/dp/0008387753",
+    "categories": [
+      "Books",
+      "Literature & Fiction",
+      "Mythology & Folk Tales"
+    ]
+  },
+  {
+    "author": "J. R. R. Tolkien",
+    "description": null,
+    "price": 4112,
+    "image_url": "https://images-na.ssl-images-amazon.com/images/I/51iy3eo8+KL._SY344_BO1,204,203,200_.jpg",
+    "rating": 4.8,
+    "reviews_count": 20453,
+    "title": "The Hobbit & The Lord of the Rings Boxed Set",
+    "url": "https://www.amazon.com/dp/0008387753",
+    "categories": [
+      "Books",
+      "Literature & Fiction",
+      "Mythology & Folk Tales"
+    ]
+  },
+  {
+    "author": "J. R. R. Tolkien",
+    "description": null,
+    "price": 4112,
+    "image_url": "https://images-na.ssl-images-amazon.com/images/I/51iy3eo8+KL._SY344_BO1,204,203,200_.jpg",
+    "rating": 4.8,
+    "reviews_count": 20453,
+    "title": "The Hobbit & The Lord of the Rings Boxed Set",
+    "url": "https://www.amazon.com/dp/0008387753",
+    "categories": [
+      "Books",
+      "Literature & Fiction",
+      "Mythology & Folk Tales"
+    ]
+  },
+  {
+    "author": "J. R. R. Tolkien",
+    "description": null,
+    "price": 4112,
+    "image_url": "https://images-na.ssl-images-amazon.com/images/I/51iy3eo8+KL._SY344_BO1,204,203,200_.jpg",
+    "rating": 4.8,
+    "reviews_count": 20453,
+    "title": "The Hobbit & The Lord of the Rings Boxed Set",
+    "url": "https://www.amazon.com/dp/0008387753",
+    "categories": [
+      "Books",
+      "Literature & Fiction",
+      "Mythology & Folk Tales"
+    ]
+  },
+  {
+    "author": "J. R. R. Tolkien",
+    "description": null,
+    "price": 4112,
+    "image_url": "https://images-na.ssl-images-amazon.com/images/I/51iy3eo8+KL._SY344_BO1,204,203,200_.jpg",
+    "rating": 4.8,
+    "reviews_count": 20453,
+    "title": "The Hobbit & The Lord of the Rings Boxed Set",
+    "url": "https://www.amazon.com/dp/0008387753",
+    "categories": [
+      "Books",
+      "Literature & Fiction",
+      "Mythology & Folk Tales"
+    ]
+  },
+  {
+    "author": "J. R. R. Tolkien",
+    "description": null,
+    "price": 4112,
+    "image_url": "https://images-na.ssl-images-amazon.com/images/I/51iy3eo8+KL._SY344_BO1,204,203,200_.jpg",
+    "rating": 4.8,
+    "reviews_count": 20453,
+    "title": "The Hobbit & The Lord of the Rings Boxed Set",
+    "url": "https://www.amazon.com/dp/0008387753",
+    "categories": [
+      "Books",
+      "Literature & Fiction",
+      "Mythology & Folk Tales"
+    ]
+  },
+  {
+    "author": "J. R. R. Tolkien",
+    "description": null,
+    "price": 4112,
+    "image_url": "https://images-na.ssl-images-amazon.com/images/I/51iy3eo8+KL._SY344_BO1,204,203,200_.jpg",
+    "rating": 4.8,
+    "reviews_count": 20453,
+    "title": "The Hobbit & The Lord of the Rings Boxed Set",
+    "url": "https://www.amazon.com/dp/0008387753",
+    "categories": [
+      "Books",
+      "Literature & Fiction",
+      "Mythology & Folk Tales"
+    ]
+  },
+  {
+    "author": "J. R. R. Tolkien",
+    "description": null,
+    "price": 4112,
+    "image_url": "https://images-na.ssl-images-amazon.com/images/I/51iy3eo8+KL._SY344_BO1,204,203,200_.jpg",
+    "rating": 4.8,
+    "reviews_count": 20453,
+    "title": "The Hobbit & The Lord of the Rings Boxed Set",
+    "url": "https://www.amazon.com/dp/0008387753",
+    "categories": [
+      "Books",
+      "Literature & Fiction",
+      "Mythology & Folk Tales"
+    ]
+  } 
+]

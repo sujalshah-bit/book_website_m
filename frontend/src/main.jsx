@@ -9,6 +9,8 @@ import BookFilters from "./components/FilterBook/FilterBookView.jsx";
 import Admin from "./components/admin/admin.jsx";
 import "./styles/index.css";
 import "./styles/app.css";
+import Wishlist from "./components/wishlist/Wishlist.jsx";
+import FeedbackForm from "./components/Feedback.jsx";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +40,14 @@ const router = createBrowserRouter([
   {
     path: "/admin",
     element: <Admin />,
+  },
+  {
+    path: "/wishlist",
+    element: <Wishlist />,
+  },
+  {
+    path: "/feedback",
+    element: <FeedbackForm />,
   },
 ]);
 
